@@ -21,9 +21,7 @@ public class Driver {
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            // todo: make better UI for file input
-//            System.out.print("Enter filename: ");
-//            String filename = keyboard.nextLine();
+            // TODO: Make UI for file selection
             String filename = "othello.xml";
 
             Document document = builder.parse(new File(filename));
@@ -36,23 +34,37 @@ public class Driver {
 //                System.out.print(nodeList.item(i).getNodeName() + " ");
 //            }
 
-            // get PERSONAE node
-            Node personae = root.getFirstChild();
-            while (personae.getNextSibling() != null && personae.getNodeName().compareTo("PERSONAE") != 0) {
-                personae = personae.getNextSibling();
-//                System.out.println(personae.getNodeName());
-            }
-
-            // print names of all children of PERSONAE with tag PERSONA
-            Node persona = personae.getFirstChild();
-            while (persona.getNextSibling() != null) {
-                persona = persona.getNextSibling();
-                if (persona.getNodeName().compareTo("PERSONA") == 0) {
-                    System.out.println(persona.getFirstChild().getNodeValue());
-                }
-            }
+            System.out.println("Number of personae: " + countPersona(root));
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Returns the number of personae that appear in a play
+     * @param root root element of play's XML tree
+     * @return number of personae
+     */
+    private static int countPersona(Element root) {
+        // get PERSONAE node
+        Node personae = root.getFirstChild();
+        while (personae.getNextSibling() != null && personae.getNodeName().compareTo("PERSONAE") != 0) {
+            personae = personae.getNextSibling();
+//                System.out.println(personae.getNodeName());
+        }
+
+        // find names of all children of PERSONAE with tag PERSONA
+        Node persona = personae.getFirstChild();
+        int personaCount = 0;
+        while (persona.getNextSibling() != null) {
+            persona = persona.getNextSibling();
+            if (persona.getNodeName().compareTo("PERSONA") == 0) {
+                // Prints all names and their roles - only for debug
+//                    System.out.println(persona.getFirstChild().getNodeValue());
+
+                personaCount++;
+            }
+        }
+        return personaCount;
     }
 }
