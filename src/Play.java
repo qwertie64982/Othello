@@ -21,6 +21,9 @@ public class Play {
     private Document document;
     private Element root;
 
+    /**
+     * Default value constructor
+     */
     public Play() {
         this.keyboard = new Scanner(System.in);
         this.factory = DocumentBuilderFactory.newInstance();
@@ -35,6 +38,10 @@ public class Play {
         }
     }
 
+    /**
+     * Explicit value constructor
+     * @param filename filename for the play's xml file
+     */
     public Play(String filename) {
         this.keyboard = new Scanner(System.in);
         this.factory = DocumentBuilderFactory.newInstance();
@@ -98,5 +105,12 @@ public class Play {
 //                System.out.print(nodeList.item(i).getFirstChild().getNodeValue() + " ");
         }
         return actCount;
+    }
+
+    @Override
+    public String toString() {
+        // Assumes TITLE is the second child of PLAY (the first being whitespace/#text), and PLAY is the root element
+        Node titleNode = root.getFirstChild().getNextSibling();
+        return titleNode.getFirstChild().getNodeValue();
     }
 }
