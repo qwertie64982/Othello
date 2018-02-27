@@ -29,12 +29,12 @@ public class Driver {
             Element root = document.getDocumentElement();
 //            System.out.println(root.getTagName());
 
-            NodeList nodeList = root.getChildNodes();
-//            for (int i = 0; i < nodeList.getLength(); i++) {
-//                System.out.print(nodeList.item(i).getNodeName() + " ");
-//            }
-
             System.out.println("Number of personae: " + countPersona(root));
+
+            System.out.println("Roderigo speaks " + countSpeakerLines(root, "RODERIGO") + " times");
+            System.out.println("Iago speaks " + countSpeakerLines(root, "IAGO") + " times");
+            System.out.println("Othello speaks " + countSpeakerLines(root, "OTHELLO") + " times");
+            System.out.println("Bianca speaks " + countSpeakerLines(root, "BIANCA") + " times");
         } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
@@ -66,5 +66,22 @@ public class Driver {
             }
         }
         return personaCount;
+    }
+
+    private static int countSpeakerLines(Element root, String speaker) {
+        // TODO: For more efficiency, first check if the speaker is within personae. If not, immediately return -1
+        // TODO: thus, 0 means the persona exists with no lines, whereas -1 means the persona doesn't exist
+
+        NodeList nodeList = root.getElementsByTagName("SPEAKER");
+        // How many times the persona has acted (spoken a set of lines)
+        int actCount = 0;
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getFirstChild().getNodeValue().compareTo(speaker) == 0) {
+                actCount++;
+            }
+//                System.out.print(nodeList.item(i).getNodeName() + " ");
+//                System.out.print(nodeList.item(i).getFirstChild().getNodeValue() + " ");
+        }
+        return actCount;
     }
 }
