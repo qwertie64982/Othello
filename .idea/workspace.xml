@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e821188f-0295-4168-bb79-f3a2855034f5" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/Play.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/Driver.java" afterPath="$PROJECT_DIR$/src/Driver.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -17,8 +20,18 @@
       <file leaf-file-name="Driver.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Driver.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1638">
-              <caret line="78" column="90" lean-forward="true" selection-start-line="78" selection-start-column="90" selection-end-line="78" selection-end-column="90" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Play.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Play.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1008">
+              <caret line="48" column="9" lean-forward="true" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -46,6 +59,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/src/PlayParser.java" />
+        <option value="$PROJECT_DIR$/src/Play.java" />
         <option value="$PROJECT_DIR$/src/Driver.java" />
       </list>
     </option>
@@ -82,6 +97,11 @@
             <path>
               <item name="Othello" type="b2602c69:ProjectViewProjectNode" />
               <item name="Othello" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Othello" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Othello" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -261,13 +281,21 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/Driver.java">
+    <entry file="file://$PROJECT_DIR$/src/Play.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1638">
-          <caret line="78" column="90" lean-forward="true" selection-start-line="78" selection-start-column="90" selection-end-line="78" selection-end-column="90" />
+        <state relative-caret-position="1008">
+          <caret line="48" column="9" lean-forward="true" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Driver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
