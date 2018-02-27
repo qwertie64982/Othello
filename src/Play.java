@@ -23,6 +23,7 @@ public class Play {
 
     /**
      * Default value constructor
+     * Default file is othello.xml
      */
     public Play() {
         this.keyboard = new Scanner(System.in);
@@ -107,6 +108,10 @@ public class Play {
         return actCount;
     }
 
+    /**
+     * toString override
+     * @return Play's full title, according to its XML file
+     */
     @Override
     public String toString() {
         // Assumes TITLE is the second child of PLAY (the first being whitespace/#text), and PLAY is the root element
