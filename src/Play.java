@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 // TODO: what to do with the methods if the play doesn't exist (the functions will crash otherwise)
+// TODO: default value for some functions
 
 public class Play {
     private Scanner keyboard;
