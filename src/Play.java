@@ -135,8 +135,6 @@ public class Play {
         return hits;
     }
 
-    // TODO: time it takes to search
-
     /**
      * Collects all the lines where the search fragment exists
      * @param searchFragment fragment to search
@@ -147,7 +145,6 @@ public class Play {
         NodeList nodeList = root.getElementsByTagName("LINE");
 
         for (int i = 0; i < nodeList.getLength(); i++) {
-
             if (nodeList.item(i).getFirstChild().getNodeName().compareTo("#text") == 0) { // cases where the line is just text
                 if (nodeList.item(i).getFirstChild().getNodeValue().contains(searchFragment)) {
                     sentences.add(nodeList.item(i).getFirstChild().getNodeValue());
@@ -159,6 +156,36 @@ public class Play {
             }
         }
         return sentences;
+    }
+
+    // TODO: Perhaps make this work with just the fragment rather than the entire line
+    // or, maybe this is for the GUI. If I just have the fragment, I need to know which of multiple potential lines to edit
+
+    /**
+     * Replaces a line with another line
+     * @param originalLine line to replace (should be unique)
+     * @param editedLine what to replace the line with
+     * @return whether or not the operation succeeded (ex. false if line doesn't exist)
+     */
+    public boolean replaceFragment(String originalLine, String editedLine) {
+        NodeList nodeList = root.getElementsByTagName("LINE");
+
+        // getElementsByTagName returns a live collection NodeList (rather than static collect)
+        // This means that changes made within the NodeList are reflected in the XML tree
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getFirstChild().getNodeName().compareTo("#text") == 0) { // cases where the line is just text
+                if (nodeList.item(i).getFirstChild().getNodeValue().contains(originalLine)) {
+                    nodeList.item(i).getFirstChild().setNodeValue(editedLine);
+                    return true;
+                }
+            } else { // cases where the line has a STAGEDIR before its text
+                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(originalLine)) {
+                    nodeList.item(i).getFirstChild().getNextSibling().setNodeValue(editedLine);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
