@@ -87,14 +87,13 @@ public class Play {
 
     /**
      * Returns how many times a persona speaks
-     * If the persona exists but speaks 0 times, this returns 0
-     * If the persona doesn't exist, this returns -1
-     * @param persona name of persona
+     * If the persona does not exist or exists and does not speak, this returns 0
+     * @param persona name of persona (case-insensitive)
      * @return how many times the persona speaks
      */
     public int countSpeakerLines(String persona) {
-        // TODO: For more efficiency, first check if the speaker is within personae. If not, immediately return -1
-        // TODO: thus, 0 means the persona exists with no lines, whereas -1 means the persona doesn't exist
+        // All speakers are in all caps, so this makes it case-insensitive
+        persona = persona.toUpperCase();
 
         NodeList nodeList = root.getElementsByTagName("SPEAKER");
         // How many times the persona has acted (spoken a set of lines)
@@ -108,6 +107,8 @@ public class Play {
         }
         return actCount;
     }
+
+    
 
     /**
      * toString override
