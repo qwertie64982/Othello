@@ -9,6 +9,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // TODO: what to do with the methods if the play doesn't exist (the functions will crash otherwise)
@@ -108,11 +109,61 @@ public class Play {
         return actCount;
     }
 
-    
+    /**
+     * Determines how many times a fragment exists in lines in the play
+     * @param searchFragment fragment to search
+     * @return number of times the fragment was found in the play
+     */
+    public int fragmentCount(String searchFragment) {
+        NodeList nodeList = root.getElementsByTagName("LINE");
+//        System.out.println(nodeList.getLength());
+
+        int hits = 0;
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getFirstChild().getNodeName().compareTo("#text") == 0) { // cases where the line is just text
+                if (nodeList.item(i).getFirstChild().getNodeValue().contains(searchFragment)) {
+//                    System.out.println(nodeList.item(i).getFirstChild().getNodeValue());
+                    hits++;
+                }
+            } else { // cases where the line has a STAGEDIR before its text
+                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
+//                    System.out.println(nodeList.item(i).getFirstChild().getNodeValue());
+                    hits++;
+                }
+            }
+        }
+        return hits;
+    }
+
+    // TODO: time it takes to search
+
+    /**
+     * Collects all the lines where the search fragment exists
+     * @param searchFragment fragment to search
+     * @return ArrayList of lines containing the search fragment
+     */
+    public ArrayList<String> fragmentLines(String searchFragment) {
+        ArrayList<String> sentences = new ArrayList<>();
+        NodeList nodeList = root.getElementsByTagName("LINE");
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+
+            if (nodeList.item(i).getFirstChild().getNodeName().compareTo("#text") == 0) { // cases where the line is just text
+                if (nodeList.item(i).getFirstChild().getNodeValue().contains(searchFragment)) {
+                    sentences.add(nodeList.item(i).getFirstChild().getNodeValue());
+                }
+            } else { // cases where the line has a STAGEDIR before its text
+                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
+                    sentences.add(nodeList.item(i).getFirstChild().getNextSibling().getNodeValue());
+                }
+            }
+        }
+        return sentences;
+    }
 
     /**
      * toString override
-     * @return Play's full title, according to its XML file
+     * @return play's full title, according to its XML file
      */
     @Override
     public String toString() {
