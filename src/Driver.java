@@ -40,5 +40,7 @@ public class Driver {
         System.out.println(othello.fragmentLines("Despise me"));
         System.out.println(othello.replaceFragment("Despise me, if I do not. Three great ones of the city,", "This sentence is altered, ASDF"));
         System.out.println(othello.fragmentLines("ASDF"));
+
+        othello.saveFile("othello_new.xml");
     }
 }

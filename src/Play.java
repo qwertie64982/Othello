@@ -7,6 +7,9 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +19,6 @@ import java.util.Scanner;
 // TODO: default value for some functions
 
 public class Play {
-    private Scanner keyboard;
     private DocumentBuilderFactory factory;
     private DocumentBuilder builder;
     private String filename;
@@ -28,7 +30,6 @@ public class Play {
      * Default file is othello.xml
      */
     public Play() {
-        this.keyboard = new Scanner(System.in);
         this.factory = DocumentBuilderFactory.newInstance();
         this.filename = "othello.xml";
 
@@ -46,7 +47,6 @@ public class Play {
      * @param filename filename for the play's xml file
      */
     public Play(String filename) {
-        this.keyboard = new Scanner(System.in);
         this.factory = DocumentBuilderFactory.newInstance();
         this.filename = filename;
 
@@ -65,7 +65,7 @@ public class Play {
      */
     public int countPersona() {
         // get PERSONAE node
-        Node personae = root.getFirstChild();
+        Node personae = this.root.getFirstChild();
         while (personae.getNextSibling() != null && personae.getNodeName().compareTo("PERSONAE") != 0) {
             personae = personae.getNextSibling();
 //                System.out.println(personae.getNodeName());
@@ -96,7 +96,7 @@ public class Play {
         // All speakers are in all caps, so this makes it case-insensitive
         persona = persona.toUpperCase();
 
-        NodeList nodeList = root.getElementsByTagName("SPEAKER");
+        NodeList nodeList = this.root.getElementsByTagName("SPEAKER");
         // How many times the persona has acted (spoken a set of lines)
         int actCount = 0;
         for (int i = 0; i < nodeList.getLength(); i++) {
@@ -115,7 +115,7 @@ public class Play {
      * @return number of times the fragment was found in the play
      */
     public int fragmentCount(String searchFragment) {
-        NodeList nodeList = root.getElementsByTagName("LINE");
+        NodeList nodeList = this.root.getElementsByTagName("LINE");
 //        System.out.println(nodeList.getLength());
 
         int hits = 0;
@@ -142,7 +142,7 @@ public class Play {
      */
     public ArrayList<String> fragmentLines(String searchFragment) {
         ArrayList<String> sentences = new ArrayList<>();
-        NodeList nodeList = root.getElementsByTagName("LINE");
+        NodeList nodeList = this.root.getElementsByTagName("LINE");
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             if (nodeList.item(i).getFirstChild().getNodeName().compareTo("#text") == 0) { // cases where the line is just text
@@ -168,7 +168,7 @@ public class Play {
      * @return whether or not the operation succeeded (ex. false if line doesn't exist)
      */
     public boolean replaceFragment(String originalLine, String editedLine) {
-        NodeList nodeList = root.getElementsByTagName("LINE");
+        NodeList nodeList = this.root.getElementsByTagName("LINE");
 
         // getElementsByTagName returns a live collection NodeList (rather than static collect)
         // This means that changes made within the NodeList are reflected in the XML tree
@@ -186,6 +186,48 @@ public class Play {
             }
         }
         return false;
+    }
+
+    /**
+     * Overwrites the pre-existing XML file with the modified XML tree
+     * @return true if success, false if failure
+     */
+    public boolean saveFile() {
+        boolean success = true;
+
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            Result output = new StreamResult(new File(this.filename));
+            Source input = new DOMSource(this.document);
+
+            transformer.transform(input, output);
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            success = false;
+        }
+        return success;
+    }
+
+    /**
+     * Saves the XML tree as a new XML file
+     * Will overwrite the original file if it has the same name as this.filename
+     * @param newFilename name of new XML file
+     * @return true if success, false if failure
+     */
+    public boolean saveFile(String newFilename) {
+        boolean success = true;
+
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            Result output = new StreamResult(new File(newFilename));
+            Source input = new DOMSource(this.document);
+
+            transformer.transform(input, output);
+        } catch (TransformerException e) {
+            e.printStackTrace();
+            success = false;
+        }
+        return success;
     }
 
     /**
