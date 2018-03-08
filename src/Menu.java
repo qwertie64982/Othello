@@ -9,18 +9,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.scene.control.Label;
-
-import java.awt.Image;
+import javafx.scene.image.Image;
 
 public class Menu extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Othello");
-        int p;
-        // BackgroundImage bg = new BackgroundImage(new Image("https://speccoll.library.arizona.edu/sites/default/files/styles/ual-large-16-9/public/MS6.jpg?itok=VhramWY8", 32, 32,false,true));  (Attempt at setting a background image to make things neater.)
         Play othello = new Play();
 
-        StackPane pane = new StackPane();
         BorderPane Bpane = new BorderPane();
         GridPane Gpane = new GridPane();
 
@@ -76,9 +72,10 @@ public class Menu extends Application {
         });
 
 
-        Scene scene = new Scene(Bpane, 720,720);
+        Scene scene = new Scene(Bpane, 200,200);
         primaryStage.setScene(scene);
-        // primaryStage.getIcons().add(new Image("Icon.jpg"));      Attempt to change icon for app.
+        Image icon = new Image("https://i.imgur.com/GX5zmdS.png");
+        primaryStage.getIcons().add(icon);
         primaryStage.show();
     }
 }
