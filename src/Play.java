@@ -15,9 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// TODO: what to do with the methods if the play doesn't exist (the functions will crash otherwise)
-// TODO: default value for some functions
-
 public class Play {
     private DocumentBuilderFactory factory;
     private DocumentBuilder builder;
@@ -29,17 +26,13 @@ public class Play {
      * Default value constructor
      * Default file is othello.xml
      */
-    public Play() {
+    public Play() throws ParserConfigurationException, IOException, SAXException{
         this.factory = DocumentBuilderFactory.newInstance();
         this.filename = "othello.xml";
 
-        try {
             builder = factory.newDocumentBuilder();
             document = builder.parse(new File(this.filename));
             root = document.getDocumentElement();
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -84,6 +77,28 @@ public class Play {
             }
         }
         return personaCount;
+    }
+
+    /**
+     * Returns how many times a persona speaks - Default value, where speaker is Othello
+     * If Othello does not exist or exists and does not speak, this returns 0
+     * @return how many times Othello speaks
+     */
+    public int countSpeakerLines() {
+        // All speakers are in all caps, so this makes it case-insensitive
+        String persona = "OTHELLO";
+
+        NodeList nodeList = this.root.getElementsByTagName("SPEAKER");
+        // How many times the persona has acted (spoken a set of lines)
+        int actCount = 0;
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getFirstChild().getNodeValue().compareTo(persona) == 0) {
+                actCount++;
+            }
+//                System.out.print(nodeList.item(i).getNodeName() + " ");
+//                System.out.print(nodeList.item(i).getFirstChild().getNodeValue() + " ");
+        }
+        return actCount;
     }
 
     /**
@@ -133,6 +148,31 @@ public class Play {
             }
         }
         return hits;
+    }
+
+    /**
+     * Collects all the lines where the search fragment exists
+     * Default version, where the fragment is "green"
+     * (because green signifies jealousy, a major theme in Othello)
+     * @return ArrayList of lines containing the search fragment
+     */
+    public ArrayList<String> fragmentLines() {
+        String searchFragment = "green";
+        ArrayList<String> sentences = new ArrayList<>();
+        NodeList nodeList = this.root.getElementsByTagName("LINE");
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            if (nodeList.item(i).getFirstChild().getNodeName().compareTo("#text") == 0) { // cases where the line is just text
+                if (nodeList.item(i).getFirstChild().getNodeValue().contains(searchFragment)) {
+                    sentences.add(nodeList.item(i).getFirstChild().getNodeValue());
+                }
+            } else { // cases where the line has a STAGEDIR before its text
+                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
+                    sentences.add(nodeList.item(i).getFirstChild().getNextSibling().getNodeValue());
+                }
+            }
+        }
+        return sentences;
     }
 
     /**
