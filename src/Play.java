@@ -180,7 +180,7 @@ public class Play {
      * @param searchFragment fragment to search
      * @return ArrayList of lines containing the search fragment
      */
-    public ArrayList<String> fragmentLines(String searchFragment) {
+    public ArrayList<String> findLinesFromFragment(String searchFragment) {
         ArrayList<String> sentences = new ArrayList<>();
         NodeList nodeList = this.root.getElementsByTagName("LINE");
 
@@ -198,16 +198,13 @@ public class Play {
         return sentences;
     }
 
-    // TODO: Perhaps make this work with just the fragment rather than the entire line
-    // or, maybe this is for the GUI. If I just have the fragment, I need to know which of multiple potential lines to edit
-
     /**
      * Replaces a line with another line
      * @param originalLine line to replace (should be unique)
      * @param editedLine what to replace the line with
      * @return whether or not the operation succeeded (ex. false if line doesn't exist)
      */
-    public boolean replaceFragment(String originalLine, String editedLine) {
+    private boolean replaceLine(String originalLine, String editedLine) {
         NodeList nodeList = this.root.getElementsByTagName("LINE");
 
         // getElementsByTagName returns a live collection NodeList (rather than static collect)
@@ -226,6 +223,23 @@ public class Play {
             }
         }
         return false;
+    }
+
+    /**
+     * Replaces a user's fragment in a line with another fragment
+     * @param originalFragment fragment of text the user wants to change
+     * @param editedFragment fragment of text that will replace originalFragment
+     * @param originalLine line that contains originalFragment (so we know which line to change)
+     * @return true if success, false if failure
+     */
+    public boolean replaceFragment(String originalFragment, String editedFragment, String originalLine) {
+        if (originalLine.contains(originalFragment)) {
+            String editedLine = originalLine.replaceAll(originalFragment, editedFragment);
+
+            return replaceLine(originalLine, editedLine);
+        } else {
+            return false;
+        }
     }
 
     /**

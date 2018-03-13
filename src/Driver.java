@@ -43,9 +43,10 @@ public class Driver {
 //                System.out.println(sentence);
 //            }
 
-            System.out.println(othello.fragmentLines("Despise me"));
-            System.out.println(othello.replaceFragment("Despise me, if I do not. Three great ones of the city,", "This sentence is altered, ASDF"));
-            System.out.println(othello.fragmentLines("ASDF"));
+            System.out.println(othello.findLinesFromFragment("Despise me"));
+            System.out.println(othello.replaceFragment("Despise me", "DANK MEMES",
+                    othello.findLinesFromFragment("Despise me").get(0)));
+            System.out.println(othello.findLinesFromFragment("DANK"));
 
 //            System.out.println();
 //            System.out.println(othello.fragmentLines());
