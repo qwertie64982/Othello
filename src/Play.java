@@ -13,7 +13,6 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Play {
     private DocumentBuilderFactory factory;
@@ -156,7 +155,7 @@ public class Play {
      * (because green signifies jealousy, a major theme in Othello)
      * @return ArrayList of lines containing the search fragment
      */
-    public ArrayList<String> fragmentLines() {
+    public ArrayList<String> findLinesFromFragment() {
         String searchFragment = "green";
         ArrayList<String> sentences = new ArrayList<>();
         NodeList nodeList = this.root.getElementsByTagName("LINE");
@@ -200,6 +199,7 @@ public class Play {
 
     /**
      * Replaces a line with another line
+     * This is used within replaceFragment(), and is not available to the user
      * @param originalLine line to replace (should be unique)
      * @param editedLine what to replace the line with
      * @return whether or not the operation succeeded (ex. false if line doesn't exist)

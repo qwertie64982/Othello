@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Menu extends Application {
-    Play othello;
+    private Play othello;
 
     @Override
     public void start(Stage primaryStage) {
