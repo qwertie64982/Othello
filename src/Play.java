@@ -281,6 +281,12 @@ public class Play {
             e.printStackTrace();
             success = false;
         }
+
+        // Change the current filename if Save As... works properly
+        if (success) {
+            this.filename = newFilename;
+        }
+
         return success;
     }
 
