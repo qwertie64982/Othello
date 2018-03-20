@@ -1,3 +1,11 @@
+/**
+ * Parses plays translated to XML
+ * Supports simple analysis and replacing functinality
+ *
+ * @author Maxwell Sherman
+ * @author Malik Al Ali
+ */
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

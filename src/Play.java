@@ -1,3 +1,11 @@
+/**
+ * Parses plays translated to XML
+ * Supports simple analysis and replacing functinality
+ *
+ * @author Maxwell Sherman
+ * @author Malik Al Ali
+ */
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

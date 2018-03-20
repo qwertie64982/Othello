@@ -1,3 +1,11 @@
+/**
+ * Parses plays translated to XML
+ * Supports simple analysis and replacing functinality
+ *
+ * @author Maxwell Sherman
+ * @author Malik Al Ali
+ */
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
