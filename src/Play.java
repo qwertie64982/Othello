@@ -14,6 +14,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Play object
+ * Stores a play, parsed using DOM from XML
+ */
 public class Play {
     private DocumentBuilderFactory factory;
     private DocumentBuilder builder;
@@ -25,7 +29,7 @@ public class Play {
      * Default value constructor
      * Default file is othello.xml
      */
-    public Play() throws ParserConfigurationException, IOException, SAXException{
+    public Play() throws ParserConfigurationException, IOException, SAXException {
         this.factory = DocumentBuilderFactory.newInstance();
         this.filename = "othello.xml";
 
@@ -38,17 +42,13 @@ public class Play {
      * Explicit value constructor
      * @param filename filename for the play's xml file
      */
-    public Play(String filename) {
+    public Play(String filename) throws ParserConfigurationException, IOException, SAXException {
         this.factory = DocumentBuilderFactory.newInstance();
         this.filename = filename;
 
-        try {
-            builder = factory.newDocumentBuilder();
-            document = builder.parse(new File(this.filename));
-            root = document.getDocumentElement();
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
-        }
+        builder = factory.newDocumentBuilder();
+        document = builder.parse(new File(this.filename));
+        root = document.getDocumentElement();
     }
 
     /**
@@ -288,6 +288,14 @@ public class Play {
         }
 
         return success;
+    }
+
+    /**
+     * Filename getter
+     * @return the file's name
+     */
+    public String getFilename() {
+        return filename;
     }
 
     /**
