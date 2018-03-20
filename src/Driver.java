@@ -124,16 +124,17 @@ public class Driver {
         System.out.print("Enter a fragment from the play (leave blank for 'green'): ");
         String searchFragment = keyboard.nextLine();
 
+        long startTime = System.currentTimeMillis();
+        long elapsedTime;
         ArrayList<String> foundLines;
-        // TODO: timer begin
         if (searchFragment.compareTo("") == 0) {
             searchFragment = "green";
             foundLines = mPlay.findLinesFromFragment();
         } else {
             foundLines = mPlay.findLinesFromFragment(searchFragment);
         }
-        // TODO: timer end
-        // TODO: print time
+        elapsedTime = System.currentTimeMillis() - startTime;
+        System.out.println("Search completed in " + elapsedTime + " ms");
 
         System.out.println();
         if (foundLines.size() > 0) {

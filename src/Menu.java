@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GUI driver class
+ */
 public class Menu extends Application {
     private Play othello;
 
