@@ -1,6 +1,6 @@
 /**
  * Parses plays translated to XML
- * Supports simple analysis and replacing functinality
+ * Supports simple analysis and replacing functionality
  *
  * @author Maxwell Sherman
  * @author Malik Al Ali
@@ -23,7 +23,7 @@ public class Driver {
         Scanner keyboard = new Scanner(System.in);
         String filename;
         try {
-            System.out.print("Enter filename (leave blank for Othello): ");
+            System.out.print("Enter filename (leave blank for othello.xml): ");
             filename = keyboard.nextLine();
             if (filename.compareTo("") == 0) {
                 System.out.println("Opening othello.xml");
@@ -97,7 +97,7 @@ public class Driver {
      * @param keyboard keyboard Scanner
      */
     private static void characterLineCount(Play mPlay, Scanner keyboard) {
-        System.out.print("Enter character name (leave blank for othello.xml): ");
+        System.out.print("Enter character name (leave blank for Othello): ");
         String speaker = keyboard.nextLine();
 
         int count;

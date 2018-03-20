@@ -1,6 +1,6 @@
 /**
  * Parses plays translated to XML
- * Supports simple analysis and replacing functinality
+ * Supports simple analysis and replacing functionality
  *
  * @author Maxwell Sherman
  * @author Malik Al Ali
@@ -10,6 +10,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -20,6 +22,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
@@ -41,9 +44,11 @@ public class Play {
         this.factory = DocumentBuilderFactory.newInstance();
         this.filename = "othello.xml";
 
-            builder = factory.newDocumentBuilder();
-            document = builder.parse(new File(this.filename));
-            root = document.getDocumentElement();
+        // This gets rid of a problem with <!DOCTYPE> tags in the XML files
+        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        builder = factory.newDocumentBuilder();
+        document = builder.parse(new File(this.filename));
+        root = document.getDocumentElement();
     }
 
     /**
@@ -54,6 +59,7 @@ public class Play {
         this.factory = DocumentBuilderFactory.newInstance();
         this.filename = filename;
 
+        factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         builder = factory.newDocumentBuilder();
         document = builder.parse(new File(this.filename));
         root = document.getDocumentElement();
@@ -148,9 +154,11 @@ public class Play {
                     hits++;
                 }
             } else { // cases where the line has a STAGEDIR before its text
-                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
+                if (nodeList.item(i).getFirstChild().getNextSibling() != null) { // cases where the line is only a STAGEDIR
+                    if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
 //                    System.out.println(nodeList.item(i).getFirstChild().getNodeValue());
-                    hits++;
+                        hits++;
+                    }
                 }
             }
         }
@@ -174,8 +182,10 @@ public class Play {
                     sentences.add(nodeList.item(i).getFirstChild().getNodeValue());
                 }
             } else { // cases where the line has a STAGEDIR before its text
-                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
-                    sentences.add(nodeList.item(i).getFirstChild().getNextSibling().getNodeValue());
+                if (nodeList.item(i).getFirstChild().getNextSibling() != null) { // cases where the line is only a STAGEDIR
+                    if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
+                        sentences.add(nodeList.item(i).getFirstChild().getNextSibling().getNodeValue());
+                    }
                 }
             }
         }
@@ -197,8 +207,10 @@ public class Play {
                     sentences.add(nodeList.item(i).getFirstChild().getNodeValue());
                 }
             } else { // cases where the line has a STAGEDIR before its text
-                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
-                    sentences.add(nodeList.item(i).getFirstChild().getNextSibling().getNodeValue());
+                if (nodeList.item(i).getFirstChild().getNextSibling() != null) { // cases where the line is only a STAGEDIR
+                    if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(searchFragment)) {
+                        sentences.add(nodeList.item(i).getFirstChild().getNextSibling().getNodeValue());
+                    }
                 }
             }
         }
@@ -224,9 +236,11 @@ public class Play {
                     return true;
                 }
             } else { // cases where the line has a STAGEDIR before its text
-                if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(originalLine)) {
-                    nodeList.item(i).getFirstChild().getNextSibling().setNodeValue(editedLine);
-                    return true;
+                if (nodeList.item(i).getFirstChild().getNextSibling() != null) { // cases where the line is only a STAGEDIR
+                    if (nodeList.item(i).getFirstChild().getNextSibling().getNodeValue().contains(originalLine)) {
+                        nodeList.item(i).getFirstChild().getNextSibling().setNodeValue(editedLine);
+                        return true;
+                    }
                 }
             }
         }
