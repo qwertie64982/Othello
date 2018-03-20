@@ -139,18 +139,19 @@ public class Driver {
                 System.out.println();
                 System.out.print("Do you want to replace this fragment? Y/n: ");
                 response = keyboard.nextLine();
-                if (response.toLowerCase().compareTo("y") == 0) { // If yes
-                    int whichLine;
-                    do {
-                        whichLine = 0;
-                        System.out.print("Enter the number of the line where you wish to replace it: ");
-                        try {
-                            whichLine = Integer.parseInt(keyboard.nextLine());
-                        } catch (NumberFormatException e) {}
-                    } while (whichLine <= 0 || whichLine > foundLines.size());
-                    fragmentReplacement(searchFragment, foundLines.get(whichLine - 1), mPlay, keyboard);
-                }
             } while (response.toLowerCase().compareTo("y") != 0 && response.toLowerCase().compareTo("n") != 0);
+
+            if (response.toLowerCase().compareTo("y") == 0) { // If the user wants to replace the fragment
+                int whichLine;
+                do {
+                    whichLine = 0;
+                    System.out.print("Enter the number of the line where you wish to replace it: ");
+                    try {
+                        whichLine = Integer.parseInt(keyboard.nextLine());
+                    } catch (NumberFormatException e) {}
+                } while (whichLine <= 0 || whichLine > foundLines.size());
+                fragmentReplacement(searchFragment, foundLines.get(whichLine - 1), mPlay, keyboard);
+            }
         } else {
             System.out.println("Did not find any lines containing that fragment.");
         }
@@ -181,42 +182,54 @@ public class Driver {
                 System.out.println();
                 System.out.print("Do you want to save? Y/n: ");
                 response = keyboard.nextLine();
+            } while (response.toLowerCase().compareTo("y") != 0 && response.toLowerCase().compareTo("n") != 0);
 
-                boolean isValidPath;
-                String path;
-                if (response.toLowerCase().compareTo("y") == 0) { // If yes
-                    do {
-                        isValidPath = true;
-
-                        System.out.println();
-                        System.out.print("Enter filename (leave blank to leave as-is): ");
-                        path = keyboard.nextLine();
-
-                        if (path.compareTo("") != 0) {
-                            try { // check if valid file name
-                                new File(path).getCanonicalPath();
-                            } catch (IOException e) {
-                                isValidPath = false;
-                            }
-                        }
-                    } while (!isValidPath);
+            boolean isValidPath;
+            String path;
+            if (response.toLowerCase().compareTo("y") == 0) { // If the user wants to save
+                do {
+                    isValidPath = true;
 
                     System.out.println();
-                    if (path.compareTo("") == 0) {
+                    System.out.print("Enter filename (leave blank to leave as-is): ");
+                    path = keyboard.nextLine();
+
+                    if (path.compareTo("") != 0) {
+                        try { // check if valid file name
+                            new File(path).getCanonicalPath();
+                        } catch (IOException e) {
+                            isValidPath = false;
+                        }
+                    } else {
+                        path = mPlay.getFilename();
+                    }
+                } while (!isValidPath);
+
+                System.out.println();
+                if (path.compareTo(mPlay.getFilename()) == 0) {
+                    String overwriteResponse;
+                    do {
+                        System.out.println();
+                        System.out.print("Overwrite previous file? Y/n: ");
+                        overwriteResponse = keyboard.nextLine();
+                    } while (overwriteResponse.toLowerCase().compareTo("y") != 0
+                            && overwriteResponse.toLowerCase().compareTo("n") != 0);
+
+                    if (overwriteResponse.compareTo("y") == 0) { // if the user wants to overwrite
                         if (mPlay.saveFile()) {
                             System.out.println("Success!");
                         } else {
                             System.out.println("Operation failed.");
                         }
+                    }
+                } else {
+                    if (mPlay.saveFile(path)) {
+                        System.out.println("Success!");
                     } else {
-                        if (mPlay.saveFile(path)) {
-                            System.out.println("Success!");
-                        } else {
-                            System.out.println("Operation failed.");
-                        }
+                        System.out.println("Operation failed.");
                     }
                 }
-            } while (response.toLowerCase().compareTo("y") != 0 && response.toLowerCase().compareTo("n") != 0);
+            }
         } else {
             System.out.println("Operation failed.");
         }
